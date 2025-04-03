@@ -3,12 +3,16 @@ List of contents:
 
 1. Tutorial Exercises
 2. Lecture Code
-3. Implementation of General Datastructures
+3. Implementation of Abstract Datastructures
 4. Time-complexity sheet
 """
 
 
 
+
+"""
+Implementation of Abstract Datastructures
+"""
 # Stack Implementation
 class Stack:
     """

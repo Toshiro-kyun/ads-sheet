@@ -2,10 +2,9 @@
 List of contents:
 
 1. Tutorial Exercises
-2. Lecture Code
-3. Implementation of Abstract Datastructures
-4. Time-complexity sheet
-5. Some commen problems with their solutions (implemented by Mohamad)
+2. Implementation of Abstract Datastructures
+3. Time-complexity sheet
+4. Some commen problems with their solutions (implemented by Mohamad)
 
 
 During the exam remember that you also have access to the reader.

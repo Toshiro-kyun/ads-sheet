@@ -5,6 +5,7 @@ List of contents:
 2. Lecture Code
 3. Implementation of Abstract Datastructures
 4. Time-complexity sheet
+5. Some commen problems with their solutions (implemented by Mohamad)
 
 
 During the exam remember that you also have access to the reader.
@@ -907,3 +908,241 @@ Dijkstra's algorithm doesn't work correctly with negative edge weights because i
     - Priority Queue Assumption
     - Dijkstra's algorithm picks the node with the smallest known distance and assumes that all shorter paths to other nodes have already been considered.
     - If an edge with a negative weight is later encountered, it could provide a shorter path to a node that was already finalized, but the algorithm doesn't go back and update it.'''
+
+# Some commen exercises (they were taken from leetcode)
+# Arrays
+class Solution:
+    def mergeAlternately(self, word1: str, word2: str) -> str:
+        A, B = len(word1), len(word2) # in this excersis you have to merge two sentences into one --> abc + def = adbecf 
+        a, b = 0, 0   # Let A be the length of Word1  # Let B be the length of Word2
+        s = []                # Let T = A + B  # Time: O(T) # Space: O(T)
+        word = 1
+        while a < A and b < B:
+            if word == 1:
+                s.append(word1[a])
+                a += 1
+                word = 2
+            else:
+                s.append(word2[b])
+                b += 1
+                word = 1
+        while a < A:
+            s.append(word1[a])
+            a += 1
+        while b < B:
+            s.append(word2[b])
+            b += 1
+        return ''.join(s)
+
+class Solution:
+    def isSubsequence(self, s: str, t: str) -> bool:
+        S = len(s)    # Time: O(T)  # Space: O(1) 
+        T = len(t)    # check if str[1] is sub of str[2] --> abc in anmbfghd # True
+        if s == '': return True
+        if S > T: return False
+        j = 0
+        for i in range(T):
+            if t[i] == s[j]:
+                if j == S-1:
+                    return True
+                j += 1
+        return False
+#Linked Lists
+
+class Solution:
+    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur = head
+        while cur and cur.next:           # Time Complexity: O(n) # Space Complexity: O(1)
+            if cur.val == cur.next.val:    #Remove Duplicates from Sorted List
+                cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return head
+
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        d = ListNode()
+        cur = d
+        while list1 and list2:         # Time Complexity: O(n)  # Space Complexity: O(1)
+            if list1.val < list2.val:  #(1)-->(1)-->(4) + (2)-->(3) = (1)-->(1)-->(2)-->(3)-->(4)
+                cur.next = list1
+                cur = list1
+                list1 = list1.next
+            else:
+                cur.next = list2
+                cur = list2
+                list2 = list2.next
+
+        cur.next = list1 if list1 else list2
+        return d.next
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        cur = head           # Time Complexity: O(n) # Space Complexity: O(1)
+        prev = None           # Reverse a list
+        while cur:
+            temp = cur.next
+            cur.next = prev
+            prev = cur
+            cur = temp
+        return prev
+
+# Binary search 
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        left = 0
+        right = len(nums) - 1                # Time Complexity: O(log(n)) # Space Complexity: O(1)
+        while left <= right:
+            middle = (right + left) // 2
+            if nums[middle] == target:
+                return middle
+            elif nums[middle] > target:
+                right = middle - 1
+            else:
+                left = middle + 1
+        return -1
+
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        n = len(nums)              #Given a sorted array of distinct integers and a target value,
+        l = 0     #return the index if the target is found. If not, return the index where it would be.
+        r = n - 1                 # Time Complexity: O(log n) # Space Complexity: O(1)
+        while l <= r:
+            m = (l + r) // 2
+            if nums[m] < target:
+                l = m + 1
+            elif nums[m] > target:
+                r = m - 1
+            else:
+                return m
+        if nums[m] < target:
+            return m + 1
+        else:
+            return m
+# Trees
+class Solution:
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:   # Time Complexity: O(n) # Space Complexity: O(h) { here "h" is the height of the tree }
+            return None
+        root.left, root.right = root.right, root.left
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        return root
+# DFS Max depth
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root: # Time Complexity: O(n)
+            return 0 # Space Complexity: O(h) { here "h" is the height of the binary tree }
+        left = self.maxDepth(root.left)
+        right = self.maxDepth(root.right)
+        return 1 + max(left, right)
+# BFS Max depth
+class Solution:
+    def maxDepth(self, root):
+        if not root:
+            return 0  # Height of an empty tree is 0
+        queue = deque([root])
+        height = 0
+        while queue:
+            level_size = len(queue)  # Number of nodes at the current level
+            for _ in range(level_size):
+                node = queue.popleft()      # Time Complexity: O(n) # Space Complexity: O(n)
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)     
+            height += 1  # Increment height at each level
+        return height
+
+#Recursive Backtracking
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)        # example: Input: nums = [1,2,3]  #Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+        ans, sol = [], []    # Time Complexity: O(2^n)
+        def backtrack(i):    # Space Complexity: O(n)
+            if i == n:
+                ans.append(sol[:])
+                return  # Don't pick nums[i]
+            backtrack(i + 1)  # Pick nums[i]
+            sol.append(nums[i])
+            backtrack(i + 1)
+            sol.pop()
+        backtrack(0)
+        return ans
+
+#Graphs
+#here is a bi-directional graph with n vertices, where each vertex is labeled from 0 to n - 1 (inclusive).
+The edges in the graph are represented as a 2D integer array edges, where each edges[i] = [ui, vi] denotes a bi-directional edge
+between vertex ui and vertex vi. Every vertex pair is connected by at most one edge, and no vertex has an edge to itself.
+You want to determine if there is a valid path that exists from vertex source to vertex destination.Given edges and the integers n,
+source, and destination, return true if there is a valid path from source to destination, or false otherwise.
+#there are 3 diffrents approches 
+
+# Recursive DFS
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        if source == destination:
+            return True
+        graph = defaultdict(list)
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+        seen = set()
+        seen.add(source)
+        def dfs(i):
+            if i == destination:
+                return True
+            for nei_node in graph[i]:
+                if nei_node not in seen:
+                    seen.add(nei_node)
+                    if dfs(nei_node):
+                        return True
+            return False  
+        return dfs(source)
+# Iterative DFS with Stack
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        if source == destination:
+            return True
+        graph = defaultdict(list)
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+        seen = set()
+        seen.add(source)
+        stack = [source]
+        while stack:
+            node = stack.pop()
+            if node == destination:
+                return True
+            for nei_node in graph[node]:
+                if nei_node not in seen:
+                    seen.add(nei_node)
+                    stack.append(nei_node)
+        return False
+# BFS With Queue
+from collections import deque
+class Solution:
+    def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+        if source == destination:
+            return True
+        graph = defaultdict(list)
+        for u, v in edges:
+            graph[u].append(v)
+            graph[v].append(u)
+        seen = set()
+        seen.add(source)
+        q = deque()
+        q.append(source)
+        while q:
+            node = q.popleft()
+            if node == destination:
+                return True
+            for nei_node in graph[node]:
+                if nei_node not in seen:
+                    seen.add(nei_node)
+                    q.append(nei_node)
+        return False # Time: O(N + E), Space: O(N + E)
+
+
+

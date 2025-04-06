@@ -1807,4 +1807,31 @@ def remove_from_search_tree(tree: TreeNode, value: int) -> TreeNode:
 
 #3.11: Function to downheap (already there)
 
+# Linked list reversal code:
+def reverse_recursive(node, prev=None):
+    if not node:
+        return prev
+    next_node = node._next
+    node._next = prev
+    return reverse_recursive(next_node, node)
+#Iterative
+def reverse_linked_list(head):
+    """
+    Reverses a singly linked list.
 
+    Args:
+        head (Node): The head node of the linked list.
+
+    Returns:
+        Node: New head node of the reversed linked list.
+    """
+    prev = None
+    current = head
+
+    while current:
+        next_node = current._next     # Store next node
+        current._next = prev          # Reverse pointer
+        prev = current                # Move prev forward
+        current = next_node           # Move current forward
+
+    return prev  # New head

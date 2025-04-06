@@ -969,6 +969,56 @@ class MaxHeap:
         return str(result)
 
 
+"""
+Exam question ans: solved by chat
+def REMOVEMAX(H):
+    """Removes the maximum element (root) from the heap and re-heapifies."""
+    # Swap the root with the last element
+    H[0], H[-1] = H[-1], H[0]
+    max_val = H.pop()  # Remove the last element (which was the original root)
+    
+    # Re-heapify the heap
+    heapify(H, len(H), 0)
+    
+    return max_val
+
+def PUSH(H, val):
+    """Pushes a value into the heap and ensures the heap property is maintained."""
+    # Add the value at the end of the heap
+    H.append(val)
+    
+    # Restore the heap property by comparing with its parent and bubbling up
+    i = len(H) - 1
+    while i > 0 and H[(i - 1) // 2] < H[i]:
+        H[(i - 1) // 2], H[i] = H[i], H[(i - 1) // 2]
+        i = (i - 1) // 2
+
+def REMOVEDUPLICATES(H):
+    """Removes duplicates from a heap H."""
+    # Step 1: Create a stack (using a list here)
+    S = []
+    
+    # Step 2: Initialize the first unique element
+    w = REMOVEMAX(H)
+    
+    # Step 3: Push the first element to stack S
+    S.append(w)
+    
+    # Step 4: Process the heap
+    while H:
+        v = REMOVEMAX(H)
+        if v != w:
+            w = v
+            S.append(w)
+    
+    # Step 5: Rebuild the heap by popping from the stack and pushing back into the heap
+    while S:
+        PUSH(H, S.pop())
+    
+    return H
+"""
+
+
 #Standard trie implementation from Ricardo:
 
 class TrieNode():

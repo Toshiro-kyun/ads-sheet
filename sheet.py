@@ -1143,5 +1143,307 @@ class Solution:
                     q.append(nei_node)
         return False # Time: O(N + E), Space: O(N + E)
 
+"""
+Tutorial Code / Additional Code
+"""
+
+#2.3: Stack from one or more queues
+
+class StackUsingQueue:
+    def __init__(self):
+        self.queue1 = Queue()
+        self.queue2 = Queue()
+
+    def push(self, item):
+        self.queue1.enqueue(item)
+
+    def pop(self):
+        if self.queue1.size() == 0:
+            print("Stack is empty!")
+            return None
+
+        # Move all elements from queue1 to queue2, except the last one
+        while self.queue1.size() > 1:
+            self.queue2.enqueue(self.queue1.dequeue())
+        
+        # The last element in queue1 is the one to pop
+        item = self.queue1.dequeue()
+
+        # Swap queues
+        self.queue1, self.queue2 = self.queue2, self.queue1
+
+        return item
+    
+#2.4: Checking if parenthetical expression in balanced
+
+def is_balanced(s):
+    stack = Stack()
+    for i in s:
+        if i == "(" or i == "[":
+            stack.push(i)
+        elif i == "]":
+            if stack.size() == 0 or stack.pop() != "[":
+                print("unbalanced")
+                return
+        elif i == ")":
+            if stack.size() == 0 or stack.pop() != "(":
+                print("unbalanced")
+                return
+    if stack.size() != 0:
+        print("unbalanced")
+    else:
+        print("balanced")
+
+#2.6: Pop method in Queue()
+
+def pop(self):
+    """
+    Retrieve and remove the value that was added last
+    :return: the item that was added last to the queue
+    """
+    if self.size() == 0:
+        print("Queue empty!")
+        return None
+    
+    val = self._q[self._back - 1]
+    self._back = (self._back - 1) % len(self._q)
+    return val
+
+#2.7: Pop in stack removes max element
+
+def pop(self):
+    """
+    Removes and returns the item on top of the stack
+    :return: item on top of the stack
+    """
+    max_ = max(self._stack)
+    self._stack.remove(max_)
+    return max_
+
+#2.8: Copy a stack
+
+def copy_stack_recursively(stack):
+    """
+    Function to copy a stack recursively.
+    """
+    # Base case: If the stack is empty, return an empty list (representing an empty stack)
+    if not stack:
+        return []
+
+    # Step 1: Pop the top element from the stack
+    top_element = stack.pop()
+
+    # Step 2: Copy the rest of the stack recursively
+    copied_stack = copy_stack_recursively(stack)
+
+    # Step 3: Push the popped element to the copied stack to maintain order
+    copied_stack.append(top_element)
+
+    # Step 4: Push the element back to the original stack to preserve its state
+    stack.append(top_element)
+
+    return copied_stack
+
+#2.11: LinkedList method to find whether a particular value exists. (Iterative solution)
+
+def find(self, value):
+    while self._next is not None and self._next._item != value:
+        self = self._next
+    if self._next is None:
+        return False
+    else:
+        return True
+
+#2.12: LinkedList method to remove all nodes from a list with a given value
+def remove_all(self, value):
+    if self._next is None:
+        return
+    if self._next._item == value:
+        self.remove_first_item()
+        self.remove_all(value)
+    else:
+        self._next.remove_all(value)
+
+#2.13: LinkedList method to remove a node at a given position from a list
+def remove_at_index(self, pos):
+    if pos > self.size():
+        return self._list_too_short_error()
+    if pos == 0:
+        self.remove_first_item()
+    if self._next is not None:
+        return self._next.remove_at_index(pos - 1)
+    
+#2.15 LinkedList method to remove last occurence of a given value
+def remove_last_occurrence(self, value) -> None:
+
+    prev_last = None  # Track predecessor of the last occurrence
+    prev = self       # Current predecessor node during traversal
+    current = self._next  # Current node being checked
+    
+    # Traverse the entire list
+    while current is not None:
+        if current._item == value:
+            prev_last = prev  # Update last found position
+        prev = current
+        current = current._next
+    
+    # Remove the node if found
+    if prev_last is not None:
+        prev_last._next = prev_last._next._next
+    else:
+        self._value_not_found_error()
+
+#2.16: LinkedList method to remove consecutive duplicate values
+def remove_duplicates(self):
+    if self._next is None:
+        return
+    if self._next._next is not None and self._next._item == self._next._next._item:
+        self._next = self._next._next  # Remove duplicate
+        self.remove_duplicates()  # Continue checking
+    else:
+        self._next.remove_duplicates()  # Move to next node
+
+
+#3.3 a) Function to copy a tree
+def copy_tree(tree: TreeNode) -> TreeNode:
+    if tree is None:
+        return None
+    return TreeNode(tree._item, copy_tree(tree._left), copy_tree(tree._right))
+
+#3.3 b) Get height of tree
+def tree_height(tree: TreeNode) -> int:
+    if tree is None:
+        return -1  # Return -1 so that a single-node tree has height 0
+    
+    left_height = tree_height(tree._left)
+    right_height = tree_height(tree._right)
+    
+    return 1 + max(left_height, right_height)
+
+
+#3.3 c) Number of nodes in tree
+def node_number(tree: TreeNode) -> int:
+    if tree is None:
+        return 0
+    return 1 + node_number(tree._left) + node_number(tree._right)
+
+#3.3 d) Find node with max value
+def find_max_node(tree: TreeNode) -> int | None:
+    if not tree:
+        return None
+    current = tree
+    while current._right is not None:
+        current = current._right
+    return current._item
+
+#3.3 e) Highest position that contains a rode
+
+def is_search_tree(root: TreeNode) -> bool:
+    def validate(node, low=-float('inf'), high=float('inf')):
+        if not node:
+            return True
+        if not (low < node._item < high):
+            return False
+        return (validate(node._left, low, node._item) and 
+                validate(node._right, node._item, high))
+    return validate(root)
+
+#3.4: Finds node with a given position, n
+
+def find_node(tree: TreeNode, pos: int) -> TreeNode:
+    if tree is None:
+        return None
+    
+    if pos == 1:
+        return tree
+    
+    parent_pos = pos // 2
+
+    if pos % 2 == 0:
+        return find_node(tree._left, parent_pos)
+    else:
+        return find_node(tree._right, parent_pos)
+    
+#3.7 Tree to list
+def tree_to_list(tree: TreeNode, index=1, result=None) -> list:
+    if result is None:
+        result = []
+    
+    # Ensure the list is large enough for the current index
+    while len(result) < index:
+        result.append(None)
+    
+    result[index - 1] = tree._item  # 1-based index adjustment
+
+    if tree._left:
+        tree_to_list(tree._left, index * 2, result)  # Left child at index * 2
+    if tree._right:
+        tree_to_list(tree._right, index * 2 + 1, result)  # Right child at index * 2 + 1
+
+    return result
+
+#3.8 a) Inorder Successor
+def inorder_successor(node: TreeNode) -> TreeNode:
+    if node._right is not None:
+        w = node._right
+        while w._left is not None:
+            w = w._left
+        return w
+    return None
+
+
+    
+def remove_from_search_tree(tree: TreeNode, value: int) -> TreeNode:
+    # Step 1: Search for the node to remove
+    node = tree
+    parent = None
+    
+    # Find the node
+    while node is not None and node._item != value:
+        parent = node
+        if value < node._item:
+            node = node._left
+        else:
+            node = node._right
+
+    if node is None:
+        return tree  # Value not found, return tree as is
+
+    # Step 2: Node found, remove the node based on number of children
+    # Case 1: Node has no children (leaf node)
+    if node._left is None and node._right is None:
+        if parent is None:
+            return None  # If root node is to be deleted, return None
+        if parent._left == node:
+            parent._left = None
+        else:
+            parent._right = None
+    
+    # Case 2: Node has one child
+    elif node._left is None or node._right is None:
+        child = node._left if node._left is not None else node._right
+        if parent is None:
+            return child  # If root node is to be deleted, return its only child
+        if parent._left == node:
+            parent._left = child
+        else:
+            parent._right = child
+    
+    # Case 3: Node has two children
+    else:
+        # Find the inorder successor
+        successor = inorder_successor(node)
+        
+        # Replace node's value with the successor's value
+        node._item = successor._item
+        
+        # Now remove the successor node
+        remove_from_search_tree(node._right, successor._item)  # Successor is always in the right subtree
+
+    return tree
+
+#3.10: Function to upheap (already there)
+
+#3.11: Function to downheap (already there)
 
 

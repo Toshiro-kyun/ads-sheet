@@ -1062,6 +1062,9 @@ A graph is a data strucutre that has nodes and edges. The nodes are connected to
         -A* algorithm: Similar to Dijkstra's algorithm, but instead of only considering the shortest distance from the start, it also takes into account an estimated distance to the goal.
             -The next node you visit is the one with the smallest sum of the known distance from the start and the estimated remaining distance (heuristic), ensuring that paths leading towards the goal are prioritized.
             -Repeat until you reach the goal, guaranteeing the shortest path while searching more efficiently than Dijkstra's. 
+            - Why can A* not overestimate the value of f(n)? 
+                - If h(n) is greater than the actual cost to reach the goal from n, the algorithm might skip over the optimal path, because it thinks it’s more expensive than it really is.
+                - A* calculates f(n) = g(n)#weight from the start to that node + h(n)#Heuristic weight.If h(n) is too large, f(n) becomes artificially high, and A* might prefer a worse path with a smaller f(n) — thus breaking optimality.
 '''
 
 #Ricardo's implementation of a graph (UNWEIGHTED)

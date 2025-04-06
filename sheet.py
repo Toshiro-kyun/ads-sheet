@@ -14,7 +14,6 @@ During the exam remember that you also have access to the reader.
 TO DO:
 Matrix representation of graphs
 Psudocode for everything
-Tutorial exercises
 Lecture code
 Time complexity sheet
 Compressed, compact and suffix tries
@@ -203,6 +202,30 @@ What types of trees are there?
             - there are no nodes with branching degree 1;
             - the branches from the root correspond exactly with the words in W.
         - Suffix tries: Every substring of a string S is the prefix of a suffix of S. A suffix trie is a special trie that stores all the suffixes of a given string.
+
+Trees can be:
+    Balanced         # The left and right subtrees of every node differ in height by no more than 1.
+    Complete         # All levels are fully filled except possibly the last, which is filled from left to right. This also means that the number of nodes is equal to the maximum index in the tree
+    Full             # Every node has either 0 or 2 children — no nodes have only one child.
+    Perfect          # A tree where all internal nodes have two children and all leaves are at the same level.
+    Degenerate       # A tree where each parent has only one child — essentially becoming a linked list.
+    Binary Search Tree (BST)   # A binary tree with the ordering property: left < root < right.
+    AVL Tree         # A self-balancing BST where the difference in height between left and right subtrees is at most 1.
+    Red-Black Tree   # A balanced BST with coloring rules to ensure O(log n) operations.
+    B-Tree           # A self-balancing general tree used in databases and file systems — nodes can have many children.
+    B+ Tree          # A variation of B-Tree where all data is stored in leaf nodes and linked for fast range queries.
+    N-ary Tree       # A general tree where each node can have up to N children.
+    Segment Tree     # A tree used for storing intervals or segments and answering range queries efficiently.
+    Fenwick Tree (Binary Indexed Tree)   # Used for cumulative frequency/range sum queries in O(log n) time.
+    Trie            # A prefix tree used for string storage and fast lookup.
+    Suffix Trie     # A trie that contains all suffixes of a given string — used in string matching problems.
+    Ternary Tree     # Each node has up to three children (often used in ternary search).
+    Decision Tree    # A tree used in machine learning for decision making — each node is a decision point.
+    Game Tree        # Represents possible moves in a game — used in AI (like chess engines).
+    Parse Tree       # Represents syntactic structure of a string according to a grammar — used in compilers.
+    Syntax Tree (AST)# Abstract version of a parse tree, often more compact — used in programming language processing.
+    Quad Tree        # Tree where each node has 4 children — used in image processing, spatial indexing.
+    Octree           # Tree with 8 children per node — used in 3D graphics and spatial partitioning.  
 '''
 #Basic binary tree node with no methods:
 class BinaryTreeNode():

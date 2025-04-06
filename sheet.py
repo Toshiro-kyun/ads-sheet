@@ -971,7 +971,7 @@ class MaxHeap:
 
 """
 Exam question ans: solved by chat
-def REMOVEMAX(H):
+def REMOVEMAX(H): O(n(log(n)))
     """Removes the maximum element (root) from the heap and re-heapifies."""
     # Swap the root with the last element
     H[0], H[-1] = H[-1], H[0]

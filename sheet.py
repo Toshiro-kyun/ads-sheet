@@ -175,6 +175,159 @@ class Queue:
         """
         self._q.append(item)
 
+#Linked Lists (done by chirag) 
+
+class LinkedList:
+    """
+    Creating a linked list data structure
+    """
+    def __init__(self, item = None, next = None):
+        self.item = item
+        self.next = next
+
+    def list_empty_error(self) -> None:
+        print("List empty")
+
+    def get_first_item(self):
+        """
+        Returns the first value stored in the linked list
+        :return: the first value stored in the linked list
+        """
+        if self.next is None:
+            self.list_empty_error()
+            return None
+        return self.next.item
+
+    def remove_first_item(self):
+        """
+        Returns and removes the first value stored in the linked list
+        :return: the first value stored in the linked list
+        """
+        if self.next is None:
+            self.list_empty_error()
+            return None
+        item = self.next.item
+        self.next = self.next.next
+        return item
+
+    def size(self) -> int:
+        """
+        Returns the number of items stored in the linked list
+        :return: the number of items stored in the linked list
+        """
+        size = 0
+        node = self.next
+        while node is not None:
+            size += 1
+            node = node.next
+        return size
+
+    def visit(self, action) -> None:
+        """
+        Performs an action for every item stored on the list
+        :param action: function that takes the value of a node as input
+        """
+        node = self.next
+        while node is not None:
+            action(node.item)
+            node = node.next
+
+    def invalid_position(self) -> None:
+        print("Invalid position")
+
+    def list_too_short_error(self) -> None:
+        print("Linked list is too short")
+
+    def get_item(self, curr_pos: int):
+        """
+        Returns the item at the given position in the linked list
+        :param curr_pos: position of the item to return
+        :return: the item at the given position in the linked list
+        """
+        if curr_pos < 0:
+            self.invalid_position()
+            return None
+        node = self.next
+        for _ in range(curr_pos):
+            if node is None:
+                self.list_too_short_error()
+                return None
+            node = node.next
+        return node.item if node else None
+
+    def add(self, item, curr_pos: int = 0) -> None:
+        """
+        Adds an item to the linked list
+        :param item: item to add
+        :param curr_pos: position to add the item (by default at the start of the linked list)
+        """
+        if curr_pos < 0:
+            self.invalid_position()
+        elif curr_pos == 0:
+            self.next = LinkedList(item, self.next)
+        elif self.next is not None:
+            self.next.add(item, curr_pos - 1)
+        else:
+            self.list_too_short_error()
+
+    def value_not_found_error(self):
+        print("Value not found")
+
+    def remove(self, value) -> None:
+        """
+        Removes the first occurrence of a given value
+        :param value: value to remove
+        """
+        if self.next is not None:
+            if self.next.item == value:
+                self.remove_first_item()
+            else:
+                self.next.remove(value)
+        else:
+            self.value_not_found_error()
+
+    def remove_duplicates(self):
+        current_node = self
+
+        while current_node.next is not None:
+            if current_node.next.item == current_node.item:
+                current_node.next = current_node.next.next
+            else:
+                current_node = current_node.next
+                
+    def remove_min(self):
+    if self.next is None:
+        self.list_empty_error()
+        return
+
+    #Find min value
+    min_val = self.next.item
+    node = self.next
+    while node is not None:
+        if node.item < min_val:
+            min_val = node.item
+        node = node.next
+
+    #Remove first occurrence of min value
+    self.remove(min_val)
+
+    def remove_max(self):
+    if self.next is None:
+        self.list_empty_error()
+        return
+
+    #Find max value
+    max_val = self.next.item
+    node = self.next
+    while node is not None:
+        if node.item > max_val:
+            max_val = node.item
+        node = node.next
+
+    #Remove first occurrence of max value
+    self.remove(max_val)
+
+
 #Trees:
 '''
 What is a tree?
@@ -801,6 +954,7 @@ A graph is a data strucutre that has nodes and edges. The nodes are connected to
         -Depth first search - You travel as far as you can into the graph, when you find a dead end, you back track to the previous moment where 
             you could have taken another route and continue from there.
         -Breath first search - Systematically go from nodes that are one edge away from the begining to two...
+        Both have a time complexity of O ( m + n ) when using an adjacency list and O(N^2) for when using an adjancency matrix.
     
     - There is two algorithms that we have to know to find the shortest path between two nodes in a graph:
         -Dijkstra's algorithm - Essentially, you visit every node and keep track of the shortest distance from the start to that node
@@ -931,6 +1085,91 @@ Dijkstra's algorithm doesn't work correctly with negative edge weights because i
     - Dijkstra's algorithm picks the node with the smallest known distance and assumes that all shorter paths to other nodes have already been considered.
     - If an edge with a negative weight is later encountered, it could provide a shorter path to a node that was already finalized, but the algorithm doesn't go back and update it.'''
 
+#By Chirag:
+#Dijkstra Algorithm with priority queue = (O((V + E) log V))
+
+"""
+Shortest Path
+Steps: 
+    Assign all nodes a distance of infinity (∞), except the source node (0).
+    Use a priority queue (min-heap) to select the node with the smallest known distance.
+    Update distances for its neighbors if a shorter path is found.
+    Repeat until all nodes have been visited.
+    
+Implementation: 
+import heapq
+
+def dijkstra(graph, start):
+    pq = [(0, start)]  # Min-heap (priority queue)
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+
+    while pq:
+        current_distance, node = heapq.heappop(pq)
+
+        for neighbor, weight in graph[node]:
+            distance = current_distance + weight
+
+            if distance < distances[neighbor]:  # Found a shorter path
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
+
+    return distances
+#example: 
+graph = {
+    'A': [('B', 1), ('C', 4)],
+    'B': [('A', 1), ('C', 2), ('D', 5)],
+    'C': [('A', 4), ('B', 2), ('D', 1)],
+    'D': [('B', 5), ('C', 1)]
+}
+
+print("\nShortest Distances from A:", dijkstra(graph, 'A'))
+
+"""
+
+#A* Algorithm: is dijkstra but uses heuristics = (O((V + E) log V))
+"""
+    It balances:
+        g(n): Cost from the start node to n
+        h(n): Estimated cost from n to the goal
+        f(n) = g(n) + h(n)
+        
+    Steps of A* Algorithm
+        Start from the initial node.
+        Use a priority queue, prioritizing nodes with the lowest f(n).
+        Update g(n) and f(n).
+        Stop when the goal is reached.
+        
+Python Implementation:
+    import heapq
+
+def a_star(graph, start, goal, heuristic):
+    pq = [(0, start)]  # Min-heap
+    g_costs = {node: float('inf') for node in graph}
+    g_costs[start] = 0
+    came_from = {}
+
+    while pq:
+        _, node = heapq.heappop(pq)
+
+        if node == goal:
+            break
+
+        for neighbor, weight in graph[node]:
+            tentative_g = g_costs[node] + weight
+
+            if tentative_g < g_costs[neighbor]:
+                g_costs[neighbor] = tentative_g
+                f_score = tentative_g + heuristic[neighbor]
+                heapq.heappush(pq, (f_score, neighbor))
+                came_from[neighbor] = node
+
+    return g_costs
+
+heuristic = {'A': 4, 'B': 2, 'C': 1, 'D': 0}
+print("\nA* Shortest Path from A to D:", a_star(graph, 'A', 'D', heuristic))
+
+"""
 # Some commen exercises (they were taken from leetcode)
 # Arrays
 class Solution:

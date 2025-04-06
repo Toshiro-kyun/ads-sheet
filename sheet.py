@@ -1888,3 +1888,111 @@ def reverse_linked_list(head):
         current = next_node           # Move current forward
 
     return prev  # New head
+#Exam question and basic info
+#Depth First Search Algorithm: (O(N^2)) for adjacency matrix and O(N + M) for adjacency list
+"""
+Applications:
+    find a path from v to w
+    check whether the graph is connected
+    check whether the graph contains a cycle
+    find a spanning tree
+
+Pseudocode:
+procedure DFS(G, v)
+    input connected graph G containing node v
+    result labelling of the edges of G with New and Old;
+           the edges labelled New form a spanning tree of G,
+           and all nodes are labelled as Visited
+
+#give v the label Visited
+    for all e incident to v do
+        if e has no label then
+            w <-- the other node incident to e
+            if w has no label then                  #e leads to a new node
+                give e the label New
+                DFS(G, w)
+            else                                    #e leads to a node that has been visited before
+                give e the label Old
+            end if
+        end if
+    end for
+end procedure
+
+#Code:
+DFS using recursion:
+def dfs_recursive(graph, node, visited):
+    if node not in visited:
+        print(node, end= " ")  # Process the node
+        visited.add(node)
+        for neighbor in graph[node]:  # Explore neighbors
+            dfs_recursive(graph, neighbor, visited)
+
+# Graph as an adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': ['F'],
+    'F': []
+}
+visited = set()
+print("Recursive DFS Traversal:")
+dfs_recursive(graph, 'A', visited)
+
+DFS using stacks (iterative)
+def dfs_iterative(graph, start):
+    stack = [start]
+    visited = set()
+
+    while stack:
+        node = stack.pop()
+        if node not in visited:
+            print(node, end=" ")
+            visited.add(node)
+            stack.extend(reversed(graph[node]))  # Reverse to maintain order
+
+print("\nIterative DFS Traversal:")
+dfs_iterative(graph, 'A')
+
+"""
+
+#Breadth first search (BFS) (O(N^2)) for adjacency matrix and O(N + M) for adjacency list
+"""
+Steps: 
+    Start from a node (source).
+    Visit the node and mark it as visited.
+    Enqueue all unvisited neighbors.
+    Dequeue a node and repeat steps 2-3.
+    Continue until the queue is empty.
+    
+Python implementation: 
+from collections import deque  # Import queue
+
+def bfs(graph, start):
+    queue = deque([start])  # Step 1: Initialize queue
+    visited = set([start])  # Step 2: Track visited nodes
+
+    while queue:
+        node = queue.popleft()  # Step 3: Dequeue (process node)
+        print(node, end=" ")  # Step 4: Print node
+
+        for neighbor in graph[node]:  # Step 5: Enqueue neighbors
+            if neighbor not in visited:
+                queue.append(neighbor)
+                visited.add(neighbor)
+
+# Graph as adjacency list
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E'],
+    'C': ['F'],
+    'D': [],
+    'E': [],
+    'F': []
+}
+
+print("BFS Traversal:")
+bfs(graph, 'A')  # Output: A B C D E F
+
+"""

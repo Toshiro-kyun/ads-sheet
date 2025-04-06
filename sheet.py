@@ -454,7 +454,7 @@ What types of trees are there?
             - there are no nodes with branching degree 1;
             - the branches from the root correspond exactly with the words in W.
         - Suffix tries: Every substring of a string S is the prefix of a suffix of S. A suffix trie is a special trie that stores all the suffixes of a given string.
-
+        - A word list associated with a trie: All the complete words that can be formed by traversing from the root to nodes marked as the end of a word.
 Trees can be:
     Balanced         # The left and right subtrees of every node differ in height by no more than 1.
     Complete         # All levels are fully filled except possibly the last, which is filled from left to right. This also means that the number of nodes is equal to the maximum index in the tree

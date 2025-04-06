@@ -39,14 +39,14 @@ class Stack:
     def __init__(self):
         self._stack = []
 
-    def push(self, item) -> None:
+    def push(self, item) -> None: #(o(1))
         """
         Adds an item to the top of the stack
         :param item: item to add
         """
         self._stack.append(item)
 
-    def pop(self):
+    def pop(self): #(o(1))
         """
         Removes and returns the item on top of the stack
         :return: item on top of the stack
@@ -59,6 +59,19 @@ class Stack:
         :return: number of items on the stack
         """
         return len(self._stack)
+        
+    def peek(self):
+        if not self.stack:
+            print("Stack is empty")
+            return None
+        return self.stack[-1]
+
+    def search(self, value):
+        for i in range(len(self.stack)-1, -1, -1):  #Search from top to bottom
+            if self.stack[i] == value:
+                return len(self.stack) - 1 - i  #Distance from top
+        print("Value not found")
+        return -1
 
 # Queue implementation, keeping track of front and back
 '''
@@ -85,7 +98,7 @@ class Queue:
             size += len(self._q)
         return size
 
-    def dequeue(self):
+    def dequeue(self): #(o(1))
         """
         Removed and returns the oldest item in the queue
         :return: the item that has been in the queue the longest
@@ -97,7 +110,7 @@ class Queue:
         self._front = (self._front + 1) % len(self._q)
         return item
 
-    def enqueue(self, item) -> None:
+    def enqueue(self, item) -> None: #(o(1))
         """
         Adds an item to the end of the queue
         :param item: item to add to the queue
@@ -107,6 +120,19 @@ class Queue:
         if self._back == self._front:
             self._back += len(self._q)
             self._q.extend(self._q)
+
+    def peek(self):
+        if not self.queue:
+            print("Queue is empty")
+            return None
+        return self.queue[0]
+
+    def search(self, value):
+        for i in range(len(self.queue)):
+            if self.queue[i] == value:
+                return i  #Position from front
+        print("Value not found")
+        return -1
 
 
 # Queue as two stacks
@@ -188,7 +214,7 @@ class LinkedList:
     def list_empty_error(self) -> None:
         print("List empty")
 
-    def get_first_item(self):
+    def get_first_item(self): #(o(1))
         """
         Returns the first value stored in the linked list
         :return: the first value stored in the linked list
@@ -198,7 +224,7 @@ class LinkedList:
             return None
         return self.next.item
 
-    def remove_first_item(self):
+    def remove_first_item(self): 
         """
         Returns and removes the first value stored in the linked list
         :return: the first value stored in the linked list
@@ -210,7 +236,7 @@ class LinkedList:
         self.next = self.next.next
         return item
 
-    def size(self) -> int:
+    def size(self) -> int: #(o(n))
         """
         Returns the number of items stored in the linked list
         :return: the number of items stored in the linked list
@@ -295,7 +321,7 @@ class LinkedList:
             else:
                 current_node = current_node.next
                 
-    def remove_min(self):
+    def remove_min(self): #(o(n))
     if self.next is None:
         self.list_empty_error()
         return
@@ -311,7 +337,7 @@ class LinkedList:
     #Remove first occurrence of min value
     self.remove(min_val)
 
-    def remove_max(self):
+    def remove_max(self): #(o(n))
     if self.next is None:
         self.list_empty_error()
         return

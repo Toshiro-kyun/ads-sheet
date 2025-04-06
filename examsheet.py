@@ -113,6 +113,12 @@ class Stack:
         while temp:
             stack.append(temp.pop())
 
+   def collapse_sequences(self): 
+       if self._next is not None: 
+           while self._next._next and self._next._next._item == self._next._item:
+               self._next._next == self._next._next._next
+            self._next.collapse_sequences()
+       
 
 # Queue implementation, keeping track of front and back
 '''

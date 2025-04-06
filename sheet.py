@@ -13,7 +13,7 @@ During the exam remember that you also have access to the reader.
 '''
 TO DO:
 Matrix representation of graphs
-Psudocode for everything
+Pseudocode for everything
 Lecture code
 Time complexity sheet
 Compressed, compact and suffix tries
@@ -1359,7 +1359,7 @@ def find_max_node(tree: TreeNode) -> int | None:
         current = current._right
     return current._item
 
-#3.3 e) Highest position that contains a rode
+#3.3 e) Highest position that contains a node
 
 def is_search_tree(root: TreeNode) -> bool:
     def validate(node, low=-float('inf'), high=float('inf')):

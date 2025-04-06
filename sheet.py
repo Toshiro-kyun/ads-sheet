@@ -180,7 +180,7 @@ class Queue:
 What is a tree?
 A tree is a data strcuture that is higherarchical. It has root nodes and children that come from those nodes.
 
-the number of edges equals the number of nodes − 1.
+the number of edges equals the number of nodes − 1. (you have to make sure that there are no cycling in the tree) 
 
 What types of trees are there?
 

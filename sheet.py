@@ -73,6 +73,47 @@ class Stack:
         print("Value not found")
         return -1
 
+    def remove_max_from_stack(stack):
+    if not stack:
+        print("Stack is empty")
+        return
+
+    temp = []
+    max_val = max(stack)
+
+    #Move to temp and skip first max
+    removed = False
+    while stack:
+        val = stack.pop()
+        if val == max_val and not removed:
+            removed = True
+            continue
+        temp.append(val)
+
+    #Restore stack
+    while temp:
+        stack.append(temp.pop())
+
+    def remove_min_from_stack(stack):
+        if not stack:
+            print("Stack is empty")
+            return
+    
+        temp = []
+        min_val = min(stack)
+    
+        removed = False
+        while stack:
+            val = stack.pop()
+            if val == min_val and not removed:
+                removed = True
+                continue
+            temp.append(val)
+    
+        while temp:
+            stack.append(temp.pop())
+
+
 # Queue implementation, keeping track of front and back
 '''
 A queue is a linear data structure that follows the First-In-First-Out (FIFO) principle, 
@@ -133,6 +174,38 @@ class Queue:
                 return i  #Position from front
         print("Value not found")
         return -1
+
+    def remove_max_from_queue(queue):
+    if not queue:
+        print("Queue is empty")
+        return
+
+    max_val = max(queue)
+    new_queue = []
+    removed = False
+    for val in queue:
+        if val == max_val and not removed:
+            removed = True
+            continue
+        new_queue.append(val)
+
+    queue[:] = new_queue 
+
+    def remove_min_from_queue(queue):
+        if not queue:
+            print("Queue is empty")
+            return
+    
+        min_val = min(queue)
+        new_queue = []
+        removed = False
+        for val in queue:
+            if val == min_val and not removed:
+                removed = True
+                continue
+            new_queue.append(val)
+    
+        queue[:] = new_queue
 
 
 # Queue as two stacks
